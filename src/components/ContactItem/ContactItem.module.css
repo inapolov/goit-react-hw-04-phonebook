@@ -1,0 +1,12 @@
+.item {
+  display: flex;
+  align-items: center;
+}
+
+.button {
+  height: 100%;
+}
+
+.contact {
+  margin-right: 10px;
+}
