@@ -1,37 +1,36 @@
-import React from "react";
+import {useState} from "react";
 import PropTypes from 'prop-types';
 import styles from './Form.module.css';
 
-class Form extends React.Component{
-    state = {
-        name: '',
-        number: ''
-    }
+function Form({onSubmit}){
 
-    changeInput = event => {
-    this.setState({
-      [event.currentTarget.name]: event.currentTarget.value
-    })
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+    
+
+  const changeInputName = event => {
+    setName(event.currentTarget.value);
   };
+  
+  const changeInputNumber = event => {
+    setNumber(event.currentTarget.value);
+      };
 
-    formSubmit = event => {
-        event.preventDefault();
-        
-        this.props.onSubmit(this.state);
-
-        this.reset();
+    const formSubmit = event => {
+        event.preventDefault();        
+        const data = { name, number };
+        onSubmit(data);
+        reset();
     };
     
-    reset = () => {
-        this.setState({
-            name: '',
-            number: ''
-        })
+    const reset = () => {
+      setName('');
+      setNumber('');
     };
     
-    render() {
+   
         return (
-            <form onSubmit={this.formSubmit} >
+            <form onSubmit={formSubmit} >
           <label className={styles.label}>
             Name
               <input
@@ -40,8 +39,8 @@ class Form extends React.Component{
                 pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
                 title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
                 required
-                value={this.state.name}
-                onChange={this.changeInput}
+                value={name}
+                onChange={changeInputName}
                 className={styles.input}
               />
           </label>
@@ -53,15 +52,15 @@ class Form extends React.Component{
               pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
               title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
               required
-              value={this.state.number}
-                onChange={this.changeInput}
+              value={number}
+                onChange={changeInputNumber}
                 className={styles.input}
             />
           </label>
           <button type="submit">Add contact</button>
         </form>
         );
-    }
+    
 };
 
 Form.propTypes = {
